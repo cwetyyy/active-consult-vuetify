@@ -27,10 +27,9 @@
             <div class="caption grey--text">BULSTAT</div>
             <div class="subtitle-2">{{ client.bulstat }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
-            <!-- <div class="caption grey--text">Status</div>
-            <div class="subtitle-2">{{ client.status }}</div> -->
-            <div class="right">
+          <v-flex xs6 sm4 md2>           
+            <div class="float-right">
+              <div class="caption grey--text">Status</div>
               <v-chip small :class="`${client.status} white--text caption`"> {{ client.status }} </v-chip>
             </div>
           </v-flex>
@@ -54,8 +53,21 @@ export default {
       this.clients.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
     }
   },
-      created() {
-      db.collection('users').onSnapshot(res => {
+    //   created() {
+    //   db.collection('users').onSnapshot(res => {
+    //     const changes = res.docChanges();
+    //     changes.forEach(change => {
+    //        if (change.type === 'added'){
+    //          this.clients.push({
+    //            ...change.doc.data(),
+    //            id: change.doc.id
+    //          });
+    //        }
+    //     })
+    //   })
+    // }
+    created() {
+      db.collectionGroup('client-info').onSnapshot(res => {
         const changes = res.docChanges();
         changes.forEach(change => {
            if (change.type === 'added'){

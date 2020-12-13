@@ -218,7 +218,10 @@ export default {
       submit(){
         if(this.$refs.form.validate()){
               firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
-                  return db.collection('users').doc(cred.user.uid).set({
+                   db.collection('users').doc(cred.user.uid).set({
+                    isAdmin: false,
+                  }).then( () =>{
+                    return db.collection('users').doc(cred.user.uid).collection('client-info').doc().set({
                     companyName: this.companyName,
                     vat: this.vat,
                     bulstat: this.bulstat,
@@ -226,12 +229,9 @@ export default {
                     corAddress: this.corAddress,
                     shortNote: this.shortNote,
                     status: this.switch1.toString(),
-                    isAdmin: false,
-                  })
-                  
-              })
-              
-              //  this.$refs.form.reset() 
+                })
+              })   
+            })
         }
       },
     },
