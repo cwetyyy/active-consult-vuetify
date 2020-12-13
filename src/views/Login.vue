@@ -52,7 +52,7 @@ export default {
         async pressed() {
             try{
                 const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-                console.log(val);
+                console.log('loggedin user: ' + val);
                 router.push('/');
             }catch(err){
                 console.log(err);

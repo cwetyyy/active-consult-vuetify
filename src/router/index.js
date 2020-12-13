@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Clients from '../views/Clients.vue'
 import Login from '../views/Login.vue'
+import ClientAccount from '../views/ClientAccount.vue'
 import firebase from 'firebase'
 require('firebase/auth');
 
@@ -26,6 +27,12 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: { hideNavigation: true } // Route meta field used to Hide the Navigation on this route
+  },
+  {
+    path: '/client-account/:id',
+    name: 'ClientAccount',
+    component: ClientAccount,
+    meta: {requiresAuth: true}
   }
 ]
 
