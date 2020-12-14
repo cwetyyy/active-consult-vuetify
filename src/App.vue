@@ -2,7 +2,7 @@
 <!-- v-app is route component from Vuetify. All cuetify components should be nested inside. -->
   <v-app> 
    <MainNavigation v-if="!$route.meta.hideNavigation" />
-      <v-main class="mx-4 mb-4">
+      <v-main class=" grey lighten-4">
         <router-view></router-view>
       </v-main>
   </v-app>

@@ -1,8 +1,7 @@
 <template>
+<v-container fluid class="my-5" >
   <div class="dashboard">
     <h1 class="subtitle-1 grey--text">ClientAccount</h1>
-    <v-container class="my-5">
-        
       <v-card
     class="mx-auto"
     max-width="600"
@@ -51,13 +50,76 @@
         </div>
         <div>
             <EditClient /> 
+            <!-- <butt on @click.stop="deleteboard(key)">Delete</button> -->
         </div>
+
       </v-list-item-content>
     </v-list-item>
-
   </v-card>
-    </v-container>
+  <div>
+    <h1>Contacts</h1>
+    <v-btn class="float-right">Create contact</v-btn>
   </div>
+  <v-expansion-panels accordion>
+    <v-card style="width: 100%;" class="mb-2">
+      <div slot="header">header</div>
+      <v-card-text>
+        <div>Create new contact</div>
+      </v-card-text>
+      <div class="px-5 pb-5">
+        <v-text-field
+              placeholder="Name"
+              v-model="contact.name"
+            ></v-text-field>
+        <v-text-field
+            placeholder="Email"
+            v-model="contact.email"
+        ></v-text-field>
+        <v-text-field
+            placeholder="Phone Number"
+            v-model="contact.phone"
+        ></v-text-field>
+        <v-text-field
+            placeholder="Address"
+            v-model="contact.address"
+        ></v-text-field>
+        <v-text-field
+            placeholder="Position"
+            v-model="contact.position"
+        ></v-text-field>
+        <v-btn @click="submit()" >Save</v-btn>
+      </div>
+    </v-card>
+
+    <v-expansion-panel
+      v-for="contact in clientContacts"
+      :key="contact.name"
+    >
+      <v-expansion-panel-header>{{ contact.name }}</v-expansion-panel-header>
+      <v-expansion-panel-content>
+        <v-layout row wrap class="pa-3">
+          <v-flex xs12 md6 class="mb-5">
+            <div class="caption grey--text pa-0">Email</div>
+            <div class="subtitle-2">{{ contact.email }}</div>
+          </v-flex>
+          <v-flex xs12 md6>
+            <div class="caption grey--text pa-0">Phone</div>
+            <div class="subtitle-2">{{ contact.phone }}</div>
+          </v-flex>
+          <v-flex xs12 md6>
+            <div class="caption grey--text pa-0">Address</div>
+            <div class="subtitle-2">{{ contact.address }}</div>
+          </v-flex>
+          <v-flex xs12 md6>
+            <div class="caption grey--text pa-0">Position</div>
+            <div class="subtitle-2">{{ contact.position }}</div>
+          </v-flex>
+        </v-layout>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
+  </div>
+  </v-container>
 </template>
 
 <script>
@@ -67,29 +129,65 @@ import EditClient from '../components/EditClient'
 // import router from '../router'
 
 export default {
-components: { EditClient },
-   data: () => ({
+  components: { EditClient },
+  data: () => ({
     key: '',
     client: [],
+    clientContacts: [],
+    contact: [],
     userEmail: '',
   }),
-    created () {
-        console.log('again calling the params' + this.$route.params.id );
-        const ref = db.collection('users').doc(this.$route.params.id).collection('client-info').doc(this.$route.params.id);
-        console.log(ref);
-        ref.get().then((doc) => {
-            if (doc.exists) {
-                this.key = doc.id;
-                this.client = doc.data();
-                console.log(this.client);
-            } else {
-                alert("No such document!");
-            }
-        }).then( () => {
-            return db.collection('users').doc(this.$route.params.id).get().then((userDoc) =>{
-            this.userEmail = userDoc.data().email
-            })
+  created () {
+      console.log('again calling the params' + this.$route.params.id );
+      const ref = db.collection('users').doc(this.$route.params.id).collection('client-info').doc(this.$route.params.id);
+      console.log(ref);
+        ref.onSnapshot((doc) => {
+          if (doc.exists) {
+              this.key = doc.id;
+              this.client = doc.data();
+              console.log(this.client);
+          } else {
+              alert("No such document!");
+          }
         })
+            db.collection('users').doc(this.$route.params.id).onSnapshot((userDoc) =>{
+          this.userEmail = userDoc.data().email
+          })
+      // ref.get().then((doc) => {
+      //     if (doc.exists) {
+      //         this.key = doc.id;
+      //         this.client = doc.data();
+      //         console.log(this.client);
+      //     } else {
+      //         alert("No such document!");
+      //     }
+      // }).then( () => {
+      //     return db.collection('users').doc(this.$route.params.id).get().then((userDoc) =>{
+      //     this.userEmail = userDoc.data().email
+      //     })
+      // })
+     db.collection('users').doc(this.$route.params.id).collection('client-contacts').onSnapshot(res => {
+        const changes = res.docChanges();
+        changes.forEach(change => {
+            if (change.type === 'added'){
+              this.clientContacts.push({
+                ...change.doc.data(),
+                id: change.doc.id
+              });
+            }
+        })
+      })
     },
+  methods:{
+    submit(){
+    db.collection('users').doc(this.$route.params.id).collection('client-contacts').doc().set({
+            name: this.contact.name,
+            email: this.contact.email,
+            phone: this.contact.phone,
+            address: this.contact.address,
+            position: this.contact.position,
+      })   
+  },
+  }
 }
 </script>

@@ -36,6 +36,7 @@
           </v-flex>
         </v-layout>
       </v-card>
+
     </v-container>
   </div>
 </template>
@@ -63,7 +64,7 @@ export default {
     //       }
     //   })
     // })
-        db.collectionGroup('client-info').onSnapshot(res => {
+      db.collectionGroup('client-info').onSnapshot(res => {
       const changes = res.docChanges();
       changes.forEach(change => {
           if (change.type === 'added'){

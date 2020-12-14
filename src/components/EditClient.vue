@@ -180,7 +180,15 @@ export default {
       submit(){
             db.collection('users').doc(this.$route.params.id).collection('client-info').doc(this.$route.params.id).update({
                    companyName: this.client.companyName,
-             })             
+                   vat: this.client.vat,
+                   bulstat: this.client.bulstat,
+                   regAddress: this.client.regAddress,
+                   corAddress: this.client.corAddress,
+                   shortNote: this.client.shortNote,
+                   status: this.client.status
+             })   
+            //  location.reload(true);
+          
         
       },
     },

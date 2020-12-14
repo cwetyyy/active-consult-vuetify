@@ -4,7 +4,6 @@
         v-model="drawer"
         :mini-variant.sync="mini"
         permanent
-        absolute
         app
         >
         <v-list-item class="px-2">
@@ -44,7 +43,7 @@
             icon
             @click.stop="mini = !mini"
             >
-            <v-icon>mdi-chevron-left</v-icon>
+            <v-icon >mdi-chevron-left</v-icon>
             <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
         <br>

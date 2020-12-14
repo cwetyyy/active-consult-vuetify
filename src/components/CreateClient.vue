@@ -203,6 +203,7 @@ export default {
       inputRules: [
         v => v.length >= 6 || 'Minimum lenght is 6 characters'
       ],
+      // client: [],
       rules: [v => v.length <= 200 || 'Max 200 characters'],
       switch1: true,
       companyName: '',  
