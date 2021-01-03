@@ -9,13 +9,13 @@ import 'firebase/firestore'
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyB1fPW4ufRNsk1SHL9dY6T5A0A_stFHPjk",
-    authDomain: "active-consult.firebaseapp.com",
-    projectId: "active-consult",
-    storageBucket: "active-consult.appspot.com",
-    messagingSenderId: "151663800700",
-    appId: "1:151663800700:web:e0e1e408640836a2a3b4f9",
-    measurementId: "G-YHR0SF9ZBJ"
+  apiKey: "AIzaSyB1fPW4ufRNsk1SHL9dY6T5A0A_stFHPjk",
+  authDomain: "active-consult.firebaseapp.com",
+  projectId: "active-consult",
+  storageBucket: "active-consult.appspot.com",
+  messagingSenderId: "151663800700",
+  appId: "1:151663800700:web:e0e1e408640836a2a3b4f9",
+  measurementId: "G-YHR0SF9ZBJ"
   };
   firebase.initializeApp(firebaseConfig);
 //   firebase.analytics();
