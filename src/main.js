@@ -5,7 +5,11 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import JsonExcel from "vue-json-excel";
+ 
 Vue.config.productionTip = false
+
+Vue.component("downloadExcel", JsonExcel);
 
 // let app;
 // firebase.auth().onAuthStateChanged(user => {

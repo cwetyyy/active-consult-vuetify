@@ -4,6 +4,9 @@ import Dashboard from '../views/Dashboard.vue'
 import Clients from '../views/Clients.vue'
 import Login from '../views/Login.vue'
 import ClientAccount from '../views/ClientAccount.vue'
+import Documents from '../views/Documents.vue'
+import AccountingCalendar from '../views/AccountingCalendar.vue'
+import ArchivedDocuments from '../views/ArchivedDocuments.vue'
 import firebase from 'firebase'
 require('firebase/auth');
 
@@ -20,6 +23,24 @@ const routes = [
     path: '/clients',
     name: 'Clients',
     component: Clients,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/accounting-calendar',
+    name: 'AccountingCalendar',
+    component: AccountingCalendar,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/documents',
+    name: 'Documents',
+    component: Documents,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/archived-documents',
+    name: 'ArchivedDocuments',
+    component: ArchivedDocuments,
     meta: {requiresAuth: true}
   },
   {

@@ -2,7 +2,7 @@
   <div class="clients">
     <h1 class="subtitle-1 grey--text">Clients</h1>
     <v-container class="my-5">
-      <CreateClient /> 
+      <CreateClient />
       <v-layout row class="mb-3">
         <v-btn small text @click="sortBy('companyName')">
           <v-icon left small>mdi-folder</v-icon>
@@ -91,23 +91,23 @@ export default {
 </script>
 
 <style scoped>
-  .client.true {
-    border-left: 4px solid #3cd1c2;
-  }
+.client.true {
+  border-left: 4px solid #3cd1c2;
+}
 
-  .client.false {
-    border-left: 4px solid tomato;
-  }
+.client.false {
+  border-left: 4px solid tomato;
+}
 
-  .v-chip{
-    float: right;
-  }
+.v-chip {
+  float: right;
+}
 
-  .v-chip.true {
-    background: #3cd1c2 !important;
-  }
+.v-chip.true {
+  background: #3cd1c2 !important;
+}
 
-  .v-chip.false {
-    background: tomato !important;
-  }
+.v-chip.false {
+  background: tomato !important;
+}
 </style>
