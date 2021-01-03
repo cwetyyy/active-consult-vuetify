@@ -67,27 +67,39 @@
         <div>Create new contact</div>
       </v-card-text>
       <div class="px-5 pb-5">
-        <v-text-field
-              placeholder="Name"
-              v-model="contact.name"
+        <v-layout row wrap>
+          <v-flex xs12 md6 class="px-15 mb-0">
+            <v-text-field
+                  placeholder="Name"
+                  v-model="contact.name"
             ></v-text-field>
-        <v-text-field
-            placeholder="Email"
-            v-model="contact.email"
-        ></v-text-field>
-        <v-text-field
-            placeholder="Phone Number"
-            v-model="contact.phone"
-        ></v-text-field>
-        <v-text-field
-            placeholder="Address"
-            v-model="contact.address"
-        ></v-text-field>
-        <v-text-field
-            placeholder="Position"
-            v-model="contact.position"
-        ></v-text-field>
-        <v-btn @click="submit()" >Save</v-btn>
+          </v-flex>
+          <v-flex xs12 md6 class="px-15  mb-0">
+            <v-text-field
+                placeholder="Email"
+                v-model="contact.email"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md6 class="px-15">
+            <v-text-field
+                placeholder="Phone Number"
+                v-model="contact.phone"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md6 class="px-15">
+            <v-text-field
+                placeholder="Address"
+                v-model="contact.address"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md6 class="px-15">
+            <v-text-field
+                placeholder="Position"
+                v-model="contact.position"
+            ></v-text-field>
+          </v-flex>
+          <v-btn @click="submit()" class="mx-15">Save</v-btn>
+        </v-layout>
       </div>
     </v-card>
 
