@@ -30,13 +30,15 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-require('firebase/auth');
-import router from '../router/index';
-
+import { mapGetters } from 'vuex'
 export default {
+    name: "Login",
+    computed: {
+        ...mapGetters(["getToast"])
+    },
     data(){
         return{
+            loading: false,
             email: '',
             password: '',
             error: '',
@@ -48,15 +50,25 @@ export default {
             ]
         }
     },
+    watch: {
+        getToast(val) {
+            if(val) {
+                this.loading = false
+            }
+        }
+    },
+    created() {
+        if(this.getLoggedUser()) {
+            this.$router.push('/')
+        }
+    },
     methods: {
         async pressed() {
-            try{
-                const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-                console.log('loggedin user: ' + val);
-                router.push('/');
-            }catch(err){
-                console.log(err);
+            const payload = {
+                email: this.email,
+                password: this.password
             }
+            this.$store.dispatch('loginUser', payload)
         }
     }
 }
