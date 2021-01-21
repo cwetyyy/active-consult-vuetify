@@ -1,20 +1,16 @@
 <template>
-  <v-row justify="center" class="text-right">
+  <v-row justify="center">
     <v-dialog
       v-model="dialog"
       persistent
       max-width="600px"
     >
-
-
-
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="info"
+          color="primary"
           dark
           v-bind="attrs"
           v-on="on"
-          depressed
         >
           Create Client
         </v-btn>
@@ -222,25 +218,24 @@ export default {
     methods: {
       submit(){
         if(this.$refs.form.validate()){
-          firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
-              let payload = {
-                isAdmin: false,
-                email: this.email,
-                client_info: {
-                  companyName: this.companyName,
-                  vat: this.vat,
-                  bulstat: this.bulstat,
-                  regAddress: this.regAddress,
-                  corAddress: this.corAddress,
-                  shortNote: this.shortNote,
-                  status: this.switch1
-                }
-              }
-              db.collection('users').doc(cred.user.uid).set(payload).then(() => {
-                payload.id = cred.user.uid
-                this.$store.commit('addUser', payload)
+              firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
+                   db.collection('users').doc(cred.user.uid).set({
+                    isAdmin: false,
+                    email: this.email
+                  }).then( () =>{
+                    return db.collection('users').doc(cred.user.uid).collection('client-info').doc(cred.user.uid).set({
+                    companyName: this.companyName,
+                    vat: this.vat,
+                    bulstat: this.bulstat,
+                    regAddress: this.regAddress,
+                    corAddress: this.corAddress,
+                    shortNote: this.shortNote,
+                    // status: this.switch1.toString(),
+                    status: this.switch1
+
+                })
+              })   
             })
-          })
         }
       },
     },

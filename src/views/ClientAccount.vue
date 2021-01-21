@@ -49,13 +49,7 @@
             <v-list-item-subtitle>{{client.status}}</v-list-item-subtitle>
         </div>
         <div>
-          <v-row>
-            <v-col cols="12">
-              <v-btn depressed color="info" class="mr-2" @click="$router.push('/client/'+id+'/documents')">Documents</v-btn>
-              <v-btn depressed color="info" class="mr-2" @click="$router.push('/client/'+id+'/events')">Events</v-btn>
-            </v-col>
-          </v-row>
-          <EditClient /> 
+            <EditClient /> 
             <!-- <butt on @click.stop="deleteboard(key)">Delete</button> -->
         </div>
 
@@ -154,12 +148,8 @@ export default {
     clientContacts: [],
     contact: [],
     userEmail: '',
-    id: null,
   }),
   created () {
-    if(this.$route.params.id) {
-      this.id = this.$route.params.id
-    }
       console.log('again calling the params' + this.$route.params.id );
       const ref = db.collection('users').doc(this.$route.params.id).collection('client-info').doc(this.$route.params.id);
       console.log(ref);
@@ -169,7 +159,7 @@ export default {
               this.client = doc.data();
               console.log(this.client);
           } else {
-              // alert("No such document!");
+              alert("No such document!");
           }
         })
             db.collection('users').doc(this.$route.params.id).onSnapshot((userDoc) =>{

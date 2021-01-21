@@ -52,7 +52,7 @@ const actions = {
             querySnapshot.forEach((doc) => {
             documentsArray.push({
                 id: doc.id,
-                companyName: doc.data().companyName,
+                client_name: doc.data().client_name,
                 client_id: doc.data().client_id,
                 status: doc.data().status,
                 category: doc.data().category,
