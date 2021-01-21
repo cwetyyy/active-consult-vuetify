@@ -1,7 +1,4 @@
-import firebase from 'firebase'
 import db from '../../fb'
-import mixin from '../../mixins/global'
-import router from '../../router/index'
 
 const state = {
     users: []
@@ -12,43 +9,19 @@ const getters = {
 }
 
 const actions = {
-  // Login User
-  loginUser({commit}, payload) {
-    firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(() => {
-      firebase.auth().onAuthStateChanged(user => {
-        db.collection("users").doc(user.uid).get().then(doc => {
-          const data = doc.data()
-          if(!data.isAdmin) {
-            commit("setToast", {message: "Only Admin can Login.", color: "red", show: true})
-          }
-          else {
-            mixin.methods.setLoggedUser(data)
-            router.push('/')
-          }
-        }).catch(err => commit("setToast", {message: err.message, color: "red", show: true}));
-      })
-    }).catch(err => commit("setToast", {message: err.message, color: "red", show: true}));
-  },
-
  // Fetch Users
- async fetchUsers({commit}) {
+ fetchUsers({commit}) {
     let usersArray = []
-    await db.collection("users")
+    db.collection("users")
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             usersArray.push({
               id: doc.id,
+              name: doc.data().name,
               email: doc.data().email,
-              // companyName: doc.data().client_info.companyName,
-              isAdmin: doc.data().isAdmin,
-              client_info: doc.data().client_info
-              // bulstat: doc.data().client_info.bulstat,
-              // vat: doc.data().client_info.vat,
-              // regAddress: doc.data().client_info.regAddress,
-              // corAddress: doc.data().client_info.corAddress,
-              // shortNote: doc.data().client_info.shortNote,
-              // status: doc.data().client_info.status,
+              age: doc.data().age,
+              gender: doc.data().gender
             });
           });
           commit('setUsers', usersArray)
@@ -61,16 +34,7 @@ const actions = {
 
 const mutations = {
     // Set Users
-    setUsers: (state, payload) => state.users = payload,
-    addUser: (state, payload) => state.users.push(payload),
-    editUser: (state, payload) => {
-      state.users = state.users.map(user => {
-        if(user.id == payload.id) {
-          return Object.assign({}, user, payload)
-        }
-        return user
-      })
-    }
+    setUsers: (state, payload) => state.users = payload
 }
 
 export default {

@@ -7,8 +7,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="info"
-          depressed
+          color="primary"
           dark
           v-bind="attrs"
           v-on="on"
@@ -179,21 +178,18 @@ export default {
     },
     methods: {
       submit(){
-        let payload = {
-          client_info: {
-            companyName: this.client.companyName,
-            vat: this.client.vat,
-            bulstat: this.client.bulstat,
-            regAddress: this.client.regAddress,
-            corAddress: this.client.corAddress,
-            shortNote: this.client.shortNote,
-            status: this.client.status
-          }
-        }
-        db.collection('users').doc(this.$route.params.id).update(payload).then(() => {
-          payload.id = this.$route.params.id
-          this.$store.commit('editUser', payload)
-        }).catch(err => console.log(err.message))
+            db.collection('users').doc(this.$route.params.id).collection('client-info').doc(this.$route.params.id).update({
+                   companyName: this.client.companyName,
+                   vat: this.client.vat,
+                   bulstat: this.client.bulstat,
+                   regAddress: this.client.regAddress,
+                   corAddress: this.client.corAddress,
+                   shortNote: this.client.shortNote,
+                   status: this.client.status
+             })   
+            //  location.reload(true);
+          
+        
       },
     },
     watch: {
