@@ -48,7 +48,7 @@
             worksheet="Documents Worksheet"
             name="Documents.xls"
           >
-            <v-btn color="info" text :disabled="isStatusUpdating">Export</v-btn>
+            <v-btn color="info" text :disabled="isStatusUpdating">Download</v-btn>
           </download-excel>
         </v-col>
       </v-row>

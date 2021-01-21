@@ -15,7 +15,8 @@
             </v-list-item-avatar>
 
             <v-list-item-title class="d-flex">
-                <p class="pt-2">John Leider</p>
+
+                <p class="pt-2">{{user ? user.client_info.companyName : 'No'}}</p> 
                 <v-btn
                     class="ml-auto"
                     icon
@@ -59,15 +60,8 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
-        <v-btn
-            icon
-            @click.stop="mini = !mini"
-            >
-            <v-icon >mdi-chevron-left</v-icon>
-            <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-        
-        <br>
+
+
         <!-- <button @click="signOut">Sign Out</button> -->
         </v-navigation-drawer>
     <!-- </nav> -->
@@ -78,6 +72,14 @@ import firebase from 'firebase';
 import router from '../router';
 require('firebase/auth');
 export default {
+    computed: {
+        user() {
+            if(this.getLoggedUser()) {
+                return this.getLoggedUser()
+            }
+            return null
+        }
+    },
     data () {
       return {
         drawer: true,
@@ -96,9 +98,8 @@ export default {
     methods: {
         async signOut(){
             try {
-                const data = await firebase.auth().signOut();
-                console.log(data);
-                // router.push('/secret')
+                firebase.auth().signOut();
+                this.removeLoggedUser()
                 router.push('/login')
             } catch(err){
                 console.log(err);

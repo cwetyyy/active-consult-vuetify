@@ -122,7 +122,7 @@
                             </v-menu>
                         </v-col>
                         <v-col cols="12">
-                            <v-autocomplete :items="getUsers" v-model="event.user" return-object item-text="client_info.companyName" placeholder="Select Client" color="info" outlined hide-details></v-autocomplete>
+                            <v-autocomplete :items="getUsers" v-model="event.user" return-object item-text="companyName" placeholder="Select User" color="info" outlined hide-details></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
                             <v-textarea placeholder="Description" v-model="event.description" color="info" outlined hide-details></v-textarea>
@@ -167,7 +167,8 @@ export default {
             this.fetchEvents()
         }
         else {
-            this.events = this.getEvents
+            const user_id = this.$route.params.id
+            this.events = this.getEvents.filter(event => event.user_id == user_id)
         }
     },
     watch: {
@@ -180,7 +181,8 @@ export default {
                 this.loading = false
                 this.createLoading = false
                 this.addModal = false
-                this.events = val
+                const user_id = this.$route.params.id
+                this.events = this.getEvents.filter(event => event.user_id == user_id)
             }
         }
     },
@@ -236,7 +238,7 @@ export default {
                 this.$store.commit('setToast', {message: "Please Enter Description", color: 'red', show: true})
                 return
             }
-            eventData.companyName = eventData.user.client_info.companyName
+            eventData.companyName = eventData.user.companyName
             eventData.user_id = eventData.user.id
             delete eventData.user
             this.createLoading = true

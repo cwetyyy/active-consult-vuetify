@@ -21,8 +21,9 @@ const actions = {
               name: doc.data().name,
               status: doc.data().status,
               deadline_date: doc.data().deadline_date,
-              user_name: doc.data().user_name,
+              companyName: doc.data().companyName,
               user_id: doc.data().user_id,
+              description: doc.data().description
             });
           });
           commit('setEvents', eventsArray)
