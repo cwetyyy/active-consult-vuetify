@@ -7,8 +7,6 @@ import ClientAccount from '../views/ClientAccount.vue'
 import Documents from '../views/Documents.vue'
 import AccountingCalendar from '../views/AccountingCalendar.vue'
 import ArchivedDocuments from '../views/ArchivedDocuments.vue'
-import ClientDocuments from '../views/ClientDocuments.vue'
-import ClientEvents from '../views/ClientEvents.vue'
 import firebase from 'firebase'
 require('firebase/auth');
 
@@ -31,18 +29,6 @@ const routes = [
     path: '/accounting-calendar',
     name: 'AccountingCalendar',
     component: AccountingCalendar,
-    meta: {requiresAuth: true}
-  },
-  {
-    path: '/client/:id/events',
-    name: 'ClientEvents',
-    component: ClientEvents,
-    meta: {requiresAuth: true}
-  },
-  {
-    path: '/client/:id/documents',
-    name: 'ClientDocuments',
-    component: ClientDocuments,
     meta: {requiresAuth: true}
   },
   {
@@ -77,13 +63,10 @@ const router = new VueRouter({
   routes
 })
 
-import mixins from '../mixins/global'
-
 router.beforeEach((to, from, next) => {
-  const user = mixins.methods.getLoggedUser()
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const isAuthenticated = firebase.auth().currentUser;
-  if(requiresAuth && (!isAuthenticated || !user)){
+  if(requiresAuth && !isAuthenticated){
     next("/login");
   } else {
     next();
