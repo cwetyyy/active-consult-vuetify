@@ -1,5 +1,6 @@
 import db from '../../fb'
 
+
 const state = {
     users: []
 }
@@ -9,6 +10,7 @@ const getters = {
 }
 
 const actions = {
+
  // Fetch Users
  fetchUsers({commit}) {
     let usersArray = []

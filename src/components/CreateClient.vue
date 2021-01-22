@@ -194,9 +194,9 @@
 </template>
 
 <script>
-import db from '@/fb';
-import firebase from 'firebase';
-require('firebase/auth');
+// import db from '@/fb';
+// import firebase from 'firebase';
+// require('firebase/auth');
 export default {
     data: () => ({
       dialog: false,
@@ -218,24 +218,7 @@ export default {
     methods: {
       submit(){
         if(this.$refs.form.validate()){
-              firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
-                   db.collection('users').doc(cred.user.uid).set({
-                    isAdmin: false,
-                    email: this.email
-                  }).then( () =>{
-                    return db.collection('users').doc(cred.user.uid).collection('client-info').doc(cred.user.uid).set({
-                    companyName: this.companyName,
-                    vat: this.vat,
-                    bulstat: this.bulstat,
-                    regAddress: this.regAddress,
-                    corAddress: this.corAddress,
-                    shortNote: this.shortNote,
-                    // status: this.switch1.toString(),
-                    status: this.switch1
 
-                })
-              })   
-            })
         }
       },
     },
