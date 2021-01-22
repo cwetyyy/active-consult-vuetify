@@ -1,18 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 import vuetify from './plugins/vuetify';
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import JsonExcel from "vue-json-excel";
- 
+
+
 Vue.config.productionTip = false
 
 Vue.component("downloadExcel", JsonExcel);
 
-import mixins from './mixins/global'
-Vue.mixin(mixins)
 // let app;
 // firebase.auth().onAuthStateChanged(user => {
 //   console.log(user);
@@ -22,7 +21,8 @@ Vue.mixin(mixins)
 // });
 
 let app;
-firebase.auth().onAuthStateChanged(() => {
+firebase.auth().onAuthStateChanged(user => {
+  console.log('this is the authenticated user: ' + user.uid);
   if(!app) {
     app = new Vue({
         router,

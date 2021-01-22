@@ -122,11 +122,9 @@
                             </v-menu>
                         </v-col>
                         <v-col cols="12">
-                            <v-autocomplete :items="getUsers" v-model="event.user" return-object item-text="client_info.companyName" placeholder="Select Client" color="info" outlined hide-details></v-autocomplete>
+                            <v-autocomplete :items="getUsers" v-model="event.user" return-object item-text="name" placeholder="Select User" color="info" outlined hide-details></v-autocomplete>
                         </v-col>
-                        <v-col cols="12">
-                            <v-textarea placeholder="Description" v-model="event.description" color="info" outlined hide-details></v-textarea>
-                        </v-col>
+
                         <v-col cols="12">
                             <v-btn block depressed color="info" @click="submitEvent" :disabled="createLoading">{{createLoading ? 'Adding Event...' : 'Add Event'}}</v-btn>
                         </v-col>
@@ -199,13 +197,11 @@ export default {
                 status: null,
                 user: null,
                 isArchived: false,
-                description: null,
             },
             headers: [
                 { text: 'Event Name', sortable: true, value: 'name'},
-                { text: 'Description', sortable: true, value: 'description'},
                 { text: 'Status', value: 'status', sortable: true },
-                { text: 'Assigned to', value: 'companyName', sortable: true },
+                { text: 'Assigned to', value: 'user_name', sortable: true },
                 { text: 'Days Left', value: 'days_left', sortable: true },
                 { text: 'Until', value: 'deadline_date', sortable: true },
             ],
@@ -232,11 +228,7 @@ export default {
                 this.$store.commit('setToast', {message: "Please Select Status", color: 'red', show: true})
                 return
             }
-            if(!eventData.description) {
-                this.$store.commit('setToast', {message: "Please Enter Description", color: 'red', show: true})
-                return
-            }
-            eventData.companyName = eventData.user.client_info.companyName
+            eventData.user_name = eventData.user.name
             eventData.user_id = eventData.user.id
             delete eventData.user
             this.createLoading = true

@@ -30,15 +30,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import firebase from 'firebase';
+require('firebase/auth');
+import router from '../router/index';
+import db from '@/fb';
+
 export default {
-    name: "Login",
-    computed: {
-        ...mapGetters(["getToast"])
-    },
     data(){
         return{
-            loading: false,
             email: '',
             password: '',
             error: '',
@@ -50,27 +49,35 @@ export default {
             ]
         }
     },
-    watch: {
-        getToast(val) {
-            if(val) {
-                this.loading = false
-            }
-        }
-    },
-    created() {
-        if(this.getLoggedUser()) {
-            this.$router.push('/')
-        }
-    },
     methods: {
         async pressed() {
-            const payload = {
-                email: this.email,
-                password: this.password
+            try{
+                // const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
+                // console.log('loggedin user: ' + val);
+                // router.push('/');
+
+                const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(() => {
+                    firebase.auth().onAuthStateChanged(user => {
+                        db.collection("users").doc(user.uid).get().then(doc => {
+                            const data = doc.data()
+                            if(!data.isAdmin) {
+                                console.log('Only Admin can Login.')
+                                "setToast", {message: "Only Admin can Login.", color: "red", show: true}
+                            }
+                            else {
+                                console.log('loggedin user: ' + val);
+                                router.push('/');
+                            }
+                        })
+                    })
+                }) 
+
+            }catch(err){
+                console.log(err);
             }
-            this.$store.dispatch('loginUser', payload)
         }
-    }
+    },
+
 }
 </script>
 

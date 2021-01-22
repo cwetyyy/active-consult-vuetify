@@ -54,4 +54,7 @@ export default {
 .theme--light.v-icon {
   color: #4D97F3 !important;
 }
+body{
+  background-color: #f4f5f8;
+}
 </style>
