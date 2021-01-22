@@ -198,9 +198,9 @@
 </template>
 
 <script>
-import db from '@/fb';
-import firebase from 'firebase';
-require('firebase/auth');
+// import db from '@/fb';
+// import firebase from 'firebase';
+// require('firebase/auth');
 export default {
     data: () => ({
       dialog: false,
@@ -222,8 +222,7 @@ export default {
     methods: {
       submit(){
         if(this.$refs.form.validate()){
-          firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
-              let payload = {
+          let payload = {
                 isAdmin: false,
                 email: this.email,
                 client_info: {
@@ -236,11 +235,26 @@ export default {
                   status: this.switch1
                 }
               }
-              db.collection('users').doc(cred.user.uid).set(payload).then(() => {
-                payload.id = cred.user.uid
-                this.$store.commit('addUser', payload)
-            })
-          })
+              this.$store.dispatch('createUser', payload)
+          // firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
+          //     let payload = {
+          //       isAdmin: false,
+          //       email: this.email,
+          //       client_info: {
+          //         companyName: this.companyName,
+          //         vat: this.vat,
+          //         bulstat: this.bulstat,
+          //         regAddress: this.regAddress,
+          //         corAddress: this.corAddress,
+          //         shortNote: this.shortNote,
+          //         status: this.switch1
+          //       }
+          //     }
+          //     db.collection('users').doc(cred.user.uid).set(payload).then(() => {
+          //       payload.id = cred.user.uid
+          //       this.$store.commit('addUser', payload)
+          //   })
+          // })
         }
       },
     },

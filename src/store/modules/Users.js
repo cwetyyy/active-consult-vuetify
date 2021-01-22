@@ -2,6 +2,7 @@ import firebase from 'firebase'
 import db from '../../fb'
 import mixin from '../../mixins/global'
 import router from '../../router/index'
+import axios from 'axios'
 
 const state = {
     users: []
@@ -12,6 +13,22 @@ const getters = {
 }
 
 const actions = {
+
+  // CREATE USER
+  async createUser({commit}, payload) {
+    commit('setUserCreated', null)
+    axios.post('https://us-central1-active-consult.cloudfunctions.net/createUser', payload).then(result => {
+        if(result.data.success) {
+            db.collection('users').doc(result.data.id).set(payload).then(() => {
+              payload.id = result.data.id
+              this.$store.commit('addUser', payload)
+          })
+        }
+    }).catch(err => {
+        commit("setToast", {message: err.message, show: true, color: "red"})
+    })
+  },
+
   // Login User
   loginUser({commit}, payload) {
     firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(() => {
