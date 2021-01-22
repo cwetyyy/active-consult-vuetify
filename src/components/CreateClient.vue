@@ -218,7 +218,7 @@ export default {
     methods: {
       submit(){
         if(this.$refs.form.validate()){
-                         firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
+              firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(cred => {
                    db.collection('users').doc(cred.user.uid).set({
                     isAdmin: false,
                     email: this.email
