@@ -54,11 +54,13 @@ export default {
                 const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
                 console.log('loggedin user: ' + val);
                 router.push('/');
+
             }catch(err){
                 console.log(err);
             }
         }
-    }
+    },
+
 }
 </script>
 

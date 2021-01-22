@@ -64,6 +64,7 @@ export default {
     //       }
     //   })
     // })
+
       db.collectionGroup('client-info').onSnapshot(res => {
       const changes = res.docChanges();
       changes.forEach(change => {
