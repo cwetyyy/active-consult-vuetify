@@ -33,6 +33,7 @@
 import firebase from 'firebase';
 require('firebase/auth');
 import router from '../router/index';
+import db from '@/fb';
 
 export default {
     data(){
@@ -51,9 +52,25 @@ export default {
     methods: {
         async pressed() {
             try{
-                const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
-                console.log('loggedin user: ' + val);
-                router.push('/');
+                // const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
+                // console.log('loggedin user: ' + val);
+                // router.push('/');
+
+                const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(() => {
+                    firebase.auth().onAuthStateChanged(user => {
+                        db.collection("users").doc(user.uid).get().then(doc => {
+                            const data = doc.data()
+                            if(!data.isAdmin) {
+                                console.log('Only Admin can Login.')
+                                "setToast", {message: "Only Admin can Login.", color: "red", show: true}
+                            }
+                            else {
+                                console.log('loggedin user: ' + val);
+                                router.push('/');
+                            }
+                        })
+                    })
+                }) 
 
             }catch(err){
                 console.log(err);
